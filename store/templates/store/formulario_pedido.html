@@ -1,0 +1,44 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Solicitud de Pedido Personalizado</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">{{ field.label }}</label>
+                        {{ field.errors }}
+                        <div class="control">
+                            {{ field }}
+                        </div>
+                        {% if field.help_text %}
+                        <small class="text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+
+                    <div class="alert alert-info mt-3">
+                        <small>📷 Si tienes una imagen de referencia, súbela para que sepamos exactamente qué quieres.</small>
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100 py-2">Enviar Solicitud</button>
+                </form>
+            </div>
+        </div>
+        
+        <script>
+            var inputs = document.querySelectorAll('input, textarea, select');
+            inputs.forEach(function(input) {
+                input.classList.add('form-control');
+            });
+        </script>
+    </div>
+</div>
+{% endblock %}

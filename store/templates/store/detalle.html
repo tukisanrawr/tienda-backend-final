@@ -1,0 +1,28 @@
+{% extends 'store/base.html' %}
+{% load static %}  {% block content %}
+<div class="row mt-5">
+    <div class="col-md-6">
+        {% if producto.imagen %}
+            <img src="{{ producto.imagen.url }}" class="img-fluid rounded shadow" alt="{{ producto.nombre }}">
+        {% else %}
+            <img src="{% static 'store/img/placeholder.png' %}" class="img-fluid rounded shadow" alt="Imagen no disponible">
+        {% endif %}
+    </div>
+    <div class="col-md-6">
+        <span class="badge bg-secondary mb-2">{{ producto.categoria.nombre }}</span>
+        <h2>{{ producto.nombre }}</h2>
+        <h3 class="text-primary mb-4">${{ producto.precio_base }} <small class="text-muted fs-6">(Precio base)</small></h3>
+        
+        <p class="lead">{{ producto.descripcion }}</p>
+        
+        <hr>
+        
+        <div class="d-grid gap-2">
+            <a href="{% url 'crear_pedido' %}?producto={{ producto.id }}" class="btn btn-success btn-lg">
+                Solicitar este producto
+            </a>
+            <a href="{% url 'catalogo' %}" class="btn btn-outline-secondary">Volver al catálogo</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

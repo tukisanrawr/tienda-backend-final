@@ -1,0 +1,52 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-8 text-center">
+        
+        <div class="alert alert-success shadow-sm">
+            <h4 class="alert-heading">¡Pedido Recibido!</h4>
+            <p>Guarda este enlace para consultar el estado de tu pedido en el futuro.</p>
+            <hr>
+            <p class="mb-0 fw-bold">Token de seguimiento: <span class="text-monospace bg-white px-2 rounded">{{ pedido.token }}</span></p>
+        </div>
+
+        <div class="card mt-4 text-start">
+            <div class="card-header bg-dark text-white d-flex justify-content-between">
+                <span>Pedido #{{ pedido.id }}</span>
+                <span>{{ pedido.created_at|date:"d M Y" }}</span>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Estado Actual: 
+                    {% if pedido.estado_pedido == 'SOLICITADO' %}
+                        <span class="badge bg-secondary">Solicitado</span>
+                    {% elif pedido.estado_pedido == 'APROBADO' %}
+                        <span class="badge bg-info">Aprobado</span>
+                    {% elif pedido.estado_pedido == 'FINALIZADA' %}
+                        <span class="badge bg-success">Finalizado</span>
+                    {% else %}
+                        <span class="badge bg-primary">{{ pedido.get_estado_pedido_display }}</span>
+                    {% endif %}
+                </h5>
+
+                <p><strong>Pago:</strong> {{ pedido.get_estado_pago_display }}</p>
+                <p><strong>Cliente:</strong> {{ pedido.cliente_nombre }}</p>
+                
+                {% if pedido.producto_referencia %}
+                <p><strong>Producto Base:</strong> {{ pedido.producto_referencia.nombre }}</p>
+                {% endif %}
+
+                <p><strong>Tu solicitud:</strong></p>
+                <div class="p-3 bg-light rounded border">
+                    {{ pedido.descripcion_solicitud }}
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4">
+            <a href="{% url 'catalogo' %}" class="btn btn-primary">Volver al inicio</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
