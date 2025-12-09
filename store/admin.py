@@ -31,8 +31,8 @@ class PedidoAdmin(admin.ModelAdmin):
     list_display = ('id', 'cliente_nombre', 'estado_pedido', 'estado_pago', 'plataforma', 'token')
     list_filter = ('estado_pedido', 'estado_pago', 'plataforma')
     search_fields = ('cliente_nombre', 'token')
-    readonly_fields = ('token',) # Para que nadie edite el token
-    actions = [exportar_pedidos_csv] # Agregamos la funcionalidad extra aquí
+    readonly_fields = ('token',) 
+    actions = [exportar_pedidos_csv] 
 
 admin.site.register(Categoria)
 admin.site.register(Insumo)
