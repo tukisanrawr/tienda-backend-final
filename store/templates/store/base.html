@@ -15,18 +15,52 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'catalogo' %}">🎨 MiTienda 3D & Deco</a>
+            <a class="navbar-brand" href="{% url 'catalogo' %}">🎨 MiTienda 3D</a>
+            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'catalogo' %}">Catálogo</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-outline-light ms-2" href="{% url 'crear_pedido' %}">Hacer un Pedido</a>
+                        <a class="nav-link" href="{% url 'crear_pedido' %}">Hacer Pedido</a>
                     </li>
+                </ul>
+
+                <form class="d-flex me-3" action="{% url 'buscar_pedido' %}" method="get">
+                    <input class="form-control me-2" type="search" name="token" placeholder="Código de seguimiento..." aria-label="Search">
+                    <button class="btn btn-outline-info" type="submit">Buscar</button>
+                </form>
+
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                        {% if user.is_staff %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-warning" href="#" role="button" data-bs-toggle="dropdown">
+                                    Admin: {{ user.username }}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="/admin/">⚙️ Panel de Gestión</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'reporte' %}">📊 Ver Reportes</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <form action="{% url 'logout' %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="dropdown-item text-danger">Cerrar Sesión</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Ingreso Admin</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

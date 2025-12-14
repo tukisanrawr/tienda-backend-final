@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ejz$uai8g2)%9vya7ncma4a3g4a98dhlbx_k&1buhs2!7ioz5r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "store",
+    'rest_framework',
+    
 
 ]
 
@@ -104,9 +106,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-es'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/santiago'  
 
 USE_I18N = True
 
@@ -123,3 +125,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# A dónde ir después de iniciar sesión exitosamente
+LOGIN_REDIRECT_URL = '/'  
+
+# A dónde ir después de cerrar sesión
+LOGOUT_REDIRECT_URL = '/'

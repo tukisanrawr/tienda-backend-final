@@ -1,0 +1,83 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">📊 Reporte de Gestión</h1>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">Estado de los Pedidos</div>
+                <div class="card-body">
+                    <canvas id="graficoEstados"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">Estado de Pagos</div>
+                <div class="card-body">
+                    <canvas id="graficoPagos"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header bg-dark text-white">Productos Más Populares</div>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for item in datos_productos %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ item.producto_referencia__nombre|default:"Producto Personalizado" }}
+                        <span class="badge bg-primary rounded-pill">{{ item.total }} pedidos</span>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">No hay datos suficientes aún.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // --- 1. Configuración Gráfico de Estados ---
+    const ctxEstados = document.getElementById('graficoEstados').getContext('2d');
+    
+    // Convertimos los datos de Django a listas de JS
+    const etiquetasEstados = [{% for item in datos_estados %}"{{ item.estado_pedido }}",{% endfor %}];
+    const valoresEstados = [{% for item in datos_estados %}{{ item.total }},{% endfor %}];
+
+    new Chart(ctxEstados, {
+        type: 'doughnut', // Gráfico de Donas
+        data: {
+            labels: etiquetasEstados,
+            datasets: [{
+                data: valoresEstados,
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
+            }]
+        }
+    });
+
+    // --- 2. Configuración Gráfico de Pagos ---
+    const ctxPagos = document.getElementById('graficoPagos').getContext('2d');
+    
+    const etiquetasPagos = [{% for item in datos_pagos %}"{{ item.estado_pago }}",{% endfor %}];
+    const valoresPagos = [{% for item in datos_pagos %}{{ item.total }},{% endfor %}];
+
+    new Chart(ctxPagos, {
+        type: 'bar', // Gráfico de Barras
+        data: {
+            labels: etiquetasPagos,
+            datasets: [{
+                label: 'Cantidad',
+                data: valoresPagos,
+                backgroundColor: ['#e74c3c', '#f1c40f', '#2ecc71']
+            }]
+        }
+    });
+</script>
+{% endblock %}
