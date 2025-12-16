@@ -1,34 +1,22 @@
 {% extends 'store/base.html' %}
 
-{% block contenido %}
+{% block content %}
 <div class="row justify-content-center mt-5">
-    <div class="col-md-4">
+    <div class="col-md-6 col-lg-4">
         <div class="card shadow">
             <div class="card-header bg-primary text-white text-center">
-                <h4>Iniciar Sesión</h4>
+                <h4>🔐 Iniciar Sesión</h4>
             </div>
             <div class="card-body">
                 <form method="post">
                     {% csrf_token %}
+                    {{ form.as_p }}
                     
-                    {% if form.errors %}
-                        <div class="alert alert-danger">Usuario o contraseña incorrectos.</div>
-                    {% endif %}
-
-                    <div class="mb-3">
-                        <label class="form-label">Usuario</label>
-                        <input type="text" name="username" class="form-control" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Contraseña</label>
-                        <input type="password" name="password" class="form-control" required>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary w-100">Entrar</button>
-                    
-                    <input type="hidden" name="next" value="{{ next }}">
+                    <button type="submit" class="btn btn-primary w-100 mt-3">Ingresar</button>
                 </form>
+            </div>
+            <div class="card-footer text-center text-muted">
+                <small>Sistema de Gestión Tienda 3D</small>
             </div>
         </div>
     </div>

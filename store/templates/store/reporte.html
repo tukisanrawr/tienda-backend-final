@@ -4,6 +4,12 @@
 <div class="container mt-4">
     <h1 class="text-center mb-4">📊 Reporte de Gestión</h1>
 
+    {% if not datos_estados %}
+        <div class="alert alert-warning text-center">
+            <strong>Aviso:</strong> No hay suficientes pedidos para generar gráficos detallados aún.
+        </div>
+    {% endif %}
+
     <div class="row">
         <div class="col-md-6 mb-4">
             <div class="card shadow">
@@ -34,7 +40,7 @@
                         <span class="badge bg-primary rounded-pill">{{ item.total }} pedidos</span>
                     </li>
                 {% empty %}
-                    <li class="list-group-item">No hay datos suficientes aún.</li>
+                    <li class="list-group-item">No hay datos de productos aún.</li>
                 {% endfor %}
             </ul>
         </div>
@@ -42,17 +48,14 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
-    // --- 1. Configuración Gráfico de Estados ---
+    // 1. Gráfico de Estados
     const ctxEstados = document.getElementById('graficoEstados').getContext('2d');
-    
-    // Convertimos los datos de Django a listas de JS
     const etiquetasEstados = [{% for item in datos_estados %}"{{ item.estado_pedido }}",{% endfor %}];
     const valoresEstados = [{% for item in datos_estados %}{{ item.total }},{% endfor %}];
 
     new Chart(ctxEstados, {
-        type: 'doughnut', // Gráfico de Donas
+        type: 'doughnut',
         data: {
             labels: etiquetasEstados,
             datasets: [{
@@ -62,22 +65,22 @@
         }
     });
 
-    // --- 2. Configuración Gráfico de Pagos ---
+    // 2. Gráfico de Pagos
     const ctxPagos = document.getElementById('graficoPagos').getContext('2d');
-    
     const etiquetasPagos = [{% for item in datos_pagos %}"{{ item.estado_pago }}",{% endfor %}];
     const valoresPagos = [{% for item in datos_pagos %}{{ item.total }},{% endfor %}];
 
     new Chart(ctxPagos, {
-        type: 'bar', // Gráfico de Barras
+        type: 'bar',
         data: {
             labels: etiquetasPagos,
             datasets: [{
-                label: 'Cantidad',
+                label: 'Pedidos',
                 data: valoresPagos,
-                backgroundColor: ['#e74c3c', '#f1c40f', '#2ecc71']
+                backgroundColor: ['#e74c3c', '#2ecc71', '#f1c40f']
             }]
-        }
+        },
+        options: { scales: { y: { beginAtZero: true } } }
     });
 </script>
 {% endblock %}
