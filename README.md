@@ -13,9 +13,9 @@ Sistema de gestión de pedidos e inventario para una tienda de productos persona
 
 Este proyecto está configurado para desplegarse en **Render**.
 
-* **URL del Proyecto:** (: https://tienda-backend.onrender.com)
-* **Usuario Admin:** `admin`
-* **Contraseña:** `admin123`
+* **URL del Proyecto:** https://tienda-backend-final.onrender.com/
+* **Usuario Admin:** `
+* **Contraseña:**`
 
 ##  Endpoints de la API
 
